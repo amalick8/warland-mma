@@ -344,7 +344,7 @@ const Button = ({
   return (
     <button 
       onClick={onClick}
-      className={`px-8 py-4 font-display font-bold uppercase tracking-wider transition-all duration-300 rounded-sm active:scale-95 ${variants[variant]} ${className}`}
+      className={`px-8 py-4 font-display font-bold uppercase tracking-wider transition-all duration-300 rounded-sm active:scale-95 cursor-pointer ${variants[variant]} ${className}`}
     >
       {children}
     </button>
@@ -393,7 +393,7 @@ const ProgramCard = ({
       {isExpanded && (
         <button 
           onClick={(e) => { e.stopPropagation(); onToggle(); }}
-          className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors z-10"
+          className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors z-10 cursor-pointer"
         >
           <X size={24} />
         </button>
@@ -453,7 +453,7 @@ const ProgramCard = ({
       {!isExpanded && (
         <button 
           onClick={onToggle}
-          className="mt-6 flex items-center text-brand-orange font-bold text-xs uppercase tracking-widest hover:text-orange-600 transition-colors"
+          className="mt-6 flex items-center text-brand-orange font-bold text-xs uppercase tracking-widest hover:text-orange-600 transition-colors cursor-pointer"
         >
           Learn More <ChevronRight size={14} className="ml-1" />
         </button>
@@ -506,7 +506,7 @@ export default function App() {
           </div>
 
           {/* Mobile Toggle */}
-          <button className="lg:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <button className="lg:hidden text-white cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
@@ -569,7 +569,13 @@ export default function App() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button variant="primary">TRY A CLASS</Button>
-                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-brand-black">VIEW SCHEDULE</Button>
+                <Button 
+                  variant="outline" 
+                  className="border-white text-white hover:bg-white hover:text-brand-black"
+                  onClick={() => document.getElementById('schedule')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  VIEW SCHEDULE
+                </Button>
               </div>
             </motion.div>
           </div>
@@ -622,33 +628,13 @@ export default function App() {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="grid grid-cols-2 gap-4">
-                <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
-                  <img 
-                    src="https://ais-dev-spgyn4xfq3pc3znjtotgnu-202469982842.us-west2.run.app/api/files/file-2" 
-                    alt="Abdul Razak Alhassan Portrait" 
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                <div className="space-y-4 mt-12">
-                  <div className="aspect-[1/1] rounded-3xl overflow-hidden shadow-2xl">
-                    <img 
-                      src="https://ais-dev-spgyn4xfq3pc3znjtotgnu-202469982842.us-west2.run.app/api/files/file-1" 
-                      alt="Abdul Razak Alhassan Action" 
-                      className="w-full h-full object-cover"
-                      referrerPolicy="no-referrer"
-                    />
-                  </div>
-                  <div className="aspect-[1/1] rounded-3xl overflow-hidden shadow-2xl">
-                    <img 
-                      src="https://images.unsplash.com/photo-1517438476312-10d79c077509?q=80&w=800&auto=format&fit=crop" 
-                      alt="Abdul Razak Alhassan Pro" 
-                      className="w-full h-full object-cover"
-                      referrerPolicy="no-referrer"
-                    />
-                  </div>
-                </div>
+              <div className="aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl">
+                <img 
+                  src="https://ais-dev-spgyn4xfq3pc3znjtotgnu-202469982842.us-west2.run.app/api/files/file-3" 
+                  alt="Abdul Razak Alhassan" 
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
               </div>
               <div className="absolute -bottom-6 -left-6 w-48 h-48 bg-brand-orange rounded-3xl -z-10" />
             </motion.div>
@@ -803,7 +789,7 @@ export default function App() {
               <button
                 key={day}
                 onClick={() => setActiveDay(day)}
-                className={`px-6 py-3 font-display font-bold uppercase tracking-widest text-sm transition-all duration-300 rounded-sm ${activeDay === day ? 'bg-brand-orange text-white shadow-lg' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+                className={`px-6 py-3 font-display font-bold uppercase tracking-widest text-sm transition-all duration-300 rounded-sm cursor-pointer ${activeDay === day ? 'bg-brand-orange text-white shadow-lg' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
               >
                 {day}
               </button>
@@ -988,7 +974,7 @@ export default function App() {
               <p className="text-gray-400 mb-6">Stay updated with our latest news and class schedules.</p>
               <div className="flex">
                 <input type="email" placeholder="Email" className="bg-white/5 border border-white/10 px-4 py-2 rounded-l-sm focus:outline-none focus:border-brand-orange w-full" />
-                <button className="bg-brand-orange px-4 py-2 rounded-r-sm hover:bg-orange-600 transition-colors"><ChevronRight /></button>
+                <button className="bg-brand-orange px-4 py-2 rounded-r-sm hover:bg-orange-600 transition-colors cursor-pointer"><ChevronRight /></button>
               </div>
             </div>
 
