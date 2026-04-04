@@ -27,21 +27,96 @@ import {
 // --- Data ---
 
 const PROGRAMS = [
-  { name: "Boxing & Kickboxing" },
-  { name: "Homeschool Fitness" },
-  { name: "Tiny Warriors" },
-  { name: "Youth MMA" },
-  { name: "Youth Judo" },
-  { name: "Youth Sport Performance" },
-  { name: "MMA Fundamentals" },
-  { name: "Judo" },
-  { name: "Women’s Boxing and Kickboxing" },
-  { name: "Boxing/Kickboxing Fundamentals" },
-  { name: "MMA Advanced" },
-  { name: "MMA/Muay Thai Fundamentals" },
-  { name: "MMA Technique and Live Rounds" },
-  { name: "Open Mat" },
-  { name: "All Levels No Gi Judo" }
+  { 
+    name: "Boxing & Kickboxing",
+    desc: "Professional instruction focused on technique, safety, and athletic growth.",
+    details: "Our boxing and kickboxing program combines traditional striking techniques with modern athletic conditioning. You'll learn proper form, footwork, and combinations while building incredible cardiovascular endurance.",
+    bullets: ["Technique-focused striking", "High-intensity conditioning", "All experience levels welcome", "Professional coaching"]
+  },
+  { 
+    name: "Homeschool Fitness",
+    desc: "Engaging physical education for homeschool students of all ages.",
+    details: "A structured physical education program designed specifically for homeschool families. We focus on foundational movement, teamwork, and building a lifelong love for fitness in a fun, social environment.",
+    bullets: ["Age-appropriate exercises", "Team building activities", "Social interaction", "Foundational fitness"]
+  },
+  { 
+    name: "Tiny Warriors",
+    desc: "Introduction to martial arts for our youngest students (ages 4-6).",
+    details: "The perfect starting point for young children. We use martial arts as a tool to teach focus, respect, and basic motor skills through fun and engaging drills.",
+    bullets: ["Focus and discipline", "Basic motor skills", "Fun, safe environment", "Confidence building"]
+  },
+  { 
+    name: "Youth MMA",
+    desc: "Comprehensive mixed martial arts training for children and teens.",
+    details: "A well-rounded program teaching the fundamentals of striking, wrestling, and grappling. We emphasize technique, sportsmanship, and personal growth for the next generation of athletes.",
+    bullets: ["Striking & Grappling", "Character development", "Safe, supervised training", "Skill progression"]
+  },
+  { 
+    name: "Youth Judo",
+    desc: "Traditional Judo training focused on throws, pins, and discipline.",
+    details: "Led by Judo black belts, this program teaches the 'Gentle Way.' Students learn effective throws and ground control while developing exceptional balance and mental fortitude.",
+    bullets: ["Olympic-style Judo", "Balance and coordination", "Respect and tradition", "Competitive opportunities"]
+  },
+  { 
+    name: "Youth Sport Performance",
+    desc: "Athletic conditioning to enhance speed, power, and agility.",
+    details: "A science-based approach to athletic development. We help young athletes improve their performance in any sport by focusing on explosive power, speed, and injury prevention.",
+    bullets: ["Speed and agility", "Strength development", "Injury prevention", "Sport-specific drills"]
+  },
+  { 
+    name: "MMA Fundamentals",
+    desc: "The building blocks of mixed martial arts for adult beginners.",
+    details: "Start your MMA journey with a solid foundation. This class covers the essential techniques of striking, clinching, and grappling in a structured, beginner-friendly format.",
+    bullets: ["Core MMA techniques", "Structured curriculum", "Beginner-friendly", "Safe environment"]
+  },
+  { 
+    name: "Judo",
+    desc: "World-class Judo instruction for adults of all skill levels.",
+    details: "Train under 'Judo Thunder' and our expert staff. Master the art of throws, sweeps, and ground transitions while building incredible functional strength and technical proficiency.",
+    bullets: ["Elite-level instruction", "Traditional techniques", "Functional strength", "All levels welcome"]
+  },
+  { 
+    name: "Women’s Boxing and Kickboxing",
+    desc: "Empowering striking classes designed specifically for women.",
+    details: "A high-energy environment where women can learn effective striking techniques while getting in the best shape of their lives. Focus on empowerment, fitness, and community.",
+    bullets: ["Empowering environment", "Full-body workout", "Self-defense skills", "Supportive community"]
+  },
+  { 
+    name: "Boxing/Kickboxing Fundamentals",
+    desc: "Master the essential striking techniques from the ground up.",
+    details: "Perfect your jab, cross, hook, and kicks. This class focuses on the technical details of striking to ensure you have a strong foundation for advanced training or fitness.",
+    bullets: ["Technical precision", "Footwork drills", "Proper striking form", "Foundational skills"]
+  },
+  { 
+    name: "MMA Advanced",
+    desc: "High-level training for experienced mixed martial artists.",
+    details: "Take your skills to the next level. This class integrates complex combinations, advanced grappling transitions, and strategic sparring for the dedicated martial artist.",
+    bullets: ["Advanced techniques", "Strategic sparring", "Competition prep", "Intense training"]
+  },
+  { 
+    name: "MMA/Muay Thai Fundamentals",
+    desc: "Combining the 'Art of Eight Limbs' with MMA basics.",
+    details: "Learn to use your fists, elbows, knees, and shins effectively. This class blends traditional Muay Thai striking with the specific requirements of mixed martial arts.",
+    bullets: ["Eight limbs striking", "Clinch work", "MMA integration", "Technical drills"]
+  },
+  { 
+    name: "MMA Technique and Live Rounds",
+    desc: "Refining skills through technical drills and live application.",
+    details: "The bridge between drills and sparring. Focus on technical application in a live environment, allowing you to test your skills safely and effectively under pressure.",
+    bullets: ["Live application", "Technical refinement", "Pressure testing", "Safe environment"]
+  },
+  { 
+    name: "Open Mat",
+    desc: "Unstructured training time to drill, roll, or spar with teammates.",
+    details: "Your time to work on what you need. Whether it's drilling a specific technique, light rolling, or just getting extra rounds in, Open Mat is for self-directed improvement.",
+    bullets: ["Self-directed training", "Drilling & Sparring", "Community building", "Extra mat time"]
+  },
+  { 
+    name: "All Levels No Gi Judo",
+    desc: "Adapting traditional Judo throws for No-Gi and MMA contexts.",
+    details: "Learn how to apply powerful Judo throws without the traditional uniform. Essential for MMA and No-Gi grappling, focusing on overhooks, underhooks, and body locks.",
+    bullets: ["No-Gi applications", "Clinch throws", "Grappling integration", "All levels welcome"]
+  }
 ];
 
 const PRICING = [
@@ -276,10 +351,122 @@ const Button = ({
   );
 };
 
+interface Program {
+  name: string;
+  desc: string;
+  details: string;
+  bullets: string[];
+}
+
+interface ProgramCardProps {
+  program: Program;
+  isExpanded: boolean;
+  onToggle: () => void;
+  isDeemphasized: boolean;
+  key?: string | number;
+}
+
+const ProgramCard = ({ 
+  program, 
+  isExpanded, 
+  onToggle, 
+  isDeemphasized 
+}: ProgramCardProps) => {
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ 
+        layout: { duration: 0.35, ease: "easeInOut" },
+        opacity: { duration: 0.2 }
+      }}
+      className={`relative group p-8 rounded-2xl transition-all duration-300 cursor-default overflow-hidden
+        ${isExpanded 
+          ? 'bg-brand-black border-brand-orange border-2 shadow-2xl md:col-span-2' 
+          : 'bg-gray-50 border border-gray-100 hover:shadow-xl hover:-translate-y-1'
+        }
+        ${isDeemphasized ? 'opacity-60 scale-[0.98]' : 'opacity-100'}
+      `}
+    >
+      {isExpanded && (
+        <button 
+          onClick={(e) => { e.stopPropagation(); onToggle(); }}
+          className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors z-10"
+        >
+          <X size={24} />
+        </button>
+      )}
+
+      <motion.h3 
+        layout="position"
+        className={`text-xl font-bold mb-3 transition-colors ${isExpanded ? 'text-white text-2xl' : 'text-brand-black group-hover:text-brand-orange'}`}
+      >
+        {program.name}
+      </motion.h3>
+
+      {isExpanded && (
+        <motion.div 
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          className="w-12 h-1 bg-brand-orange mb-6 origin-left"
+        />
+      )}
+
+      <motion.p 
+        layout="position"
+        className={`text-sm leading-relaxed transition-colors ${isExpanded ? 'text-gray-300 mb-6' : 'text-gray-500 group-hover:text-gray-600'}`}
+      >
+        {program.desc}
+      </motion.p>
+
+      <AnimatePresence mode="wait">
+        {isExpanded && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-6"
+          >
+            <p className="text-gray-400 text-sm leading-relaxed">
+              {program.details}
+            </p>
+            
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {program.bullets.map((bullet, i) => (
+                <li key={i} className="flex items-center text-sm text-gray-300">
+                  <div className="w-1.5 h-1.5 bg-brand-orange rounded-full mr-2" />
+                  {bullet}
+                </li>
+              ))}
+            </ul>
+
+            <div className="pt-4">
+              <Button variant="primary" className="w-full sm:w-auto">TRY A CLASS</Button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {!isExpanded && (
+        <button 
+          onClick={onToggle}
+          className="mt-6 flex items-center text-brand-orange font-bold text-xs uppercase tracking-widest hover:text-orange-600 transition-colors"
+        >
+          Learn More <ChevronRight size={14} className="ml-1" />
+        </button>
+      )}
+    </motion.div>
+  );
+};
+
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDay, setActiveDay] = useState("Monday");
+  const [expandedProgram, setExpandedProgram] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -408,26 +595,20 @@ export default function App() {
             subtitle="Diverse training options designed for every age and skill level. Find the perfect class to start your journey."
           />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {PROGRAMS.map((program, idx) => (
-              <motion.div
+          <motion.div 
+            layout
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            {PROGRAMS.map((program) => (
+              <ProgramCard 
                 key={program.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.05 }}
-                className="group p-8 bg-gray-50 border border-gray-100 rounded-2xl hover:bg-brand-black hover:border-brand-black transition-all duration-500 cursor-default"
-              >
-                <h3 className="text-xl font-bold mb-3 group-hover:text-white transition-colors">{program.name}</h3>
-                <p className="text-gray-500 group-hover:text-gray-400 transition-colors text-sm leading-relaxed">
-                  Professional instruction focused on technique, safety, and athletic growth.
-                </p>
-                <div className="mt-6 flex items-center text-brand-orange font-bold text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                  Learn More <ChevronRight size={14} className="ml-1" />
-                </div>
-              </motion.div>
+                program={program}
+                isExpanded={expandedProgram === program.name}
+                isDeemphasized={expandedProgram !== null && expandedProgram !== program.name}
+                onToggle={() => setExpandedProgram(expandedProgram === program.name ? null : program.name)}
+              />
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -710,19 +891,19 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Map Placeholder */}
-              <div className="mt-12 h-64 bg-gray-100 rounded-3xl border border-gray-200 flex items-center justify-center text-gray-400 font-medium overflow-hidden relative">
-                <img 
-                  src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=800&auto=format&fit=crop" 
-                  alt="Map Placeholder" 
-                  className="absolute inset-0 w-full h-full object-cover opacity-20"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="relative z-10 flex flex-col items-center text-center px-6">
-                  <MapPin className="text-brand-orange mb-2" size={32} />
-                  <span className="text-brand-black font-bold">17265 Rendon Rd, Crowley, TX 76028</span>
-                  <span className="text-xs mt-1">Interactive Map View</span>
-                </div>
+              {/* Interactive Map */}
+              <div className="mt-12 h-80 bg-gray-100 rounded-3xl border border-gray-200 overflow-hidden relative shadow-inner">
+                <iframe 
+                  width="100%" 
+                  height="100%" 
+                  frameBorder="0" 
+                  scrolling="no" 
+                  marginHeight={0} 
+                  marginWidth={0} 
+                  src="https://maps.google.com/maps?q=17265%20Rendon%20Rd,%20Crowley,%20TX%2076028&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  title="WARLAND MMA Location"
+                  className="grayscale hover:grayscale-0 transition-all duration-700"
+                ></iframe>
               </div>
             </motion.div>
 
