@@ -328,12 +328,14 @@ const Button = ({
   children, 
   variant = 'primary', 
   className = '', 
-  onClick 
+  onClick,
+  type = 'button',
 }: { 
   children: React.ReactNode, 
   variant?: 'primary' | 'secondary' | 'outline', 
   className?: string,
-  onClick?: () => void
+  onClick?: () => void,
+  type?: 'button' | 'submit' | 'reset',
 }) => {
   const variants = {
     primary: 'bg-brand-orange text-white hover:bg-orange-600',
@@ -343,6 +345,7 @@ const Button = ({
 
   return (
     <button 
+      type={type}
       onClick={onClick}
       className={`px-8 py-4 font-display font-bold uppercase tracking-wider transition-all duration-300 rounded-sm active:scale-95 cursor-pointer ${variants[variant]} ${className}`}
     >
@@ -382,9 +385,9 @@ const ProgramCard = ({
         layout: { duration: 0.35, ease: "easeInOut" },
         opacity: { duration: 0.2 }
       }}
-      className={`relative group p-8 rounded-2xl transition-all duration-300 cursor-default overflow-hidden
+      className={`relative group p-8 rounded-2xl transition-all duration-300 overflow-hidden
         ${isExpanded 
-          ? 'bg-brand-black border-brand-orange border-2 shadow-2xl md:col-span-2' 
+          ? 'cursor-default bg-brand-black border-brand-orange border-2 shadow-2xl md:col-span-2' 
           : 'bg-gray-50 border border-gray-100 hover:shadow-xl hover:-translate-y-1'
         }
         ${isDeemphasized ? 'opacity-60 scale-[0.98]' : 'opacity-100'}
@@ -392,6 +395,7 @@ const ProgramCard = ({
     >
       {isExpanded && (
         <button 
+          type="button"
           onClick={(e) => { e.stopPropagation(); onToggle(); }}
           className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors z-10 cursor-pointer"
         >
@@ -452,6 +456,7 @@ const ProgramCard = ({
 
       {!isExpanded && (
         <button 
+          type="button"
           onClick={onToggle}
           className="mt-6 flex items-center text-brand-orange font-bold text-xs uppercase tracking-widest hover:text-orange-600 transition-colors cursor-pointer"
         >
@@ -487,7 +492,7 @@ export default function App() {
       {/* --- Navbar --- */}
       <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-brand-black py-4 shadow-xl' : 'bg-transparent py-6'}`}>
         <div className="container mx-auto px-6 flex items-center justify-between">
-          <a href="#" className="text-2xl font-display font-bold text-white tracking-tighter">
+          <a href="#" className="text-2xl font-display font-bold text-white tracking-tighter cursor-pointer">
             WARLAND <span className="text-brand-orange">MMA</span>
           </a>
 
@@ -497,7 +502,7 @@ export default function App() {
               <a 
                 key={link.name} 
                 href={link.href} 
-                className="text-sm font-bold uppercase tracking-widest text-white hover:text-brand-orange transition-colors"
+                className="text-sm font-bold uppercase tracking-widest text-white hover:text-brand-orange transition-colors cursor-pointer"
               >
                 {link.name}
               </a>
@@ -506,7 +511,7 @@ export default function App() {
           </div>
 
           {/* Mobile Toggle */}
-          <button className="lg:hidden text-white cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <button type="button" className="lg:hidden text-white cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}>
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
@@ -526,7 +531,7 @@ export default function App() {
                     key={link.name} 
                     href={link.href} 
                     onClick={() => setIsMenuOpen(false)}
-                    className="text-lg font-bold uppercase tracking-widest text-white hover:text-brand-orange"
+                    className="text-lg font-bold uppercase tracking-widest text-white hover:text-brand-orange cursor-pointer"
                   >
                     {link.name}
                   </a>
@@ -540,15 +545,14 @@ export default function App() {
 
       {/* --- Hero Section --- */}
       <section className="relative h-screen flex items-center overflow-hidden bg-brand-black">
-        {/* Background Image Placeholder */}
+        {/* Background image + readability gradient (darker on text side, clearer on the right) */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1920&auto=format&fit=crop" 
-            alt="Gym Hero" 
-            className="w-full h-full object-cover opacity-40"
-            referrerPolicy="no-referrer"
+            src="/hero-background.png" 
+            alt="Professional MMA bout inside the octagon" 
+            className="h-full w-full object-cover brightness-[1.05] contrast-[1.05]"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-black via-brand-black/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/35 to-black/25" />
         </div>
 
         <div className="container mx-auto px-6 relative z-10">
@@ -569,13 +573,12 @@ export default function App() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button variant="primary">TRY A CLASS</Button>
-                <Button 
-                  variant="outline" 
-                  className="border-white text-white hover:bg-white hover:text-brand-black"
-                  onClick={() => document.getElementById('schedule')?.scrollIntoView({ behavior: 'smooth' })}
+                <a
+                  href="#schedule"
+                  className="inline-flex items-center justify-center px-8 py-4 font-display font-bold uppercase tracking-wider transition-all duration-300 rounded-sm active:scale-95 cursor-pointer border-2 border-white text-white hover:bg-white hover:text-brand-black text-center"
                 >
                   VIEW SCHEDULE
-                </Button>
+                </a>
               </div>
             </motion.div>
           </div>
@@ -630,10 +633,9 @@ export default function App() {
             >
               <div className="aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl">
                 <img 
-                  src="https://ais-dev-spgyn4xfq3pc3znjtotgnu-202469982842.us-west2.run.app/api/files/file-3" 
+                  src="/coach-abdul.png" 
                   alt="Abdul Razak Alhassan" 
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
+                  className="h-full w-full object-cover"
                 />
               </div>
               <div className="absolute -bottom-6 -left-6 w-48 h-48 bg-brand-orange rounded-3xl -z-10" />
@@ -787,6 +789,7 @@ export default function App() {
           <div className="flex flex-wrap justify-center gap-2 mb-12">
             {Object.keys(SCHEDULE).map(day => (
               <button
+                type="button"
                 key={day}
                 onClick={() => setActiveDay(day)}
                 className={`px-6 py-3 font-display font-bold uppercase tracking-widest text-sm transition-all duration-300 rounded-sm cursor-pointer ${activeDay === day ? 'bg-brand-orange text-white shadow-lg' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
@@ -919,7 +922,7 @@ export default function App() {
                   <label className="text-sm font-bold uppercase tracking-wider text-gray-500">Your Message</label>
                   <textarea rows={4} className="w-full px-6 py-4 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-orange/20 focus:border-brand-orange transition-all resize-none" placeholder="Tell us about your goals..."></textarea>
                 </div>
-                <Button variant="primary" className="w-full py-5">SEND MESSAGE</Button>
+                <Button type="submit" variant="primary" className="w-full py-5">SEND MESSAGE</Button>
                 <p className="text-xs text-center text-gray-400">
                   By submitting, you agree to our terms and privacy policy.
                 </p>
@@ -936,16 +939,16 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             
             <div className="space-y-6">
-              <a href="#" className="text-3xl font-display font-bold tracking-tighter">
+              <a href="#" className="text-3xl font-display font-bold tracking-tighter cursor-pointer">
                 WARLAND <span className="text-brand-orange">MMA</span>
               </a>
               <p className="text-gray-400 leading-relaxed">
                 Premium martial arts training for all ages. Building confidence, discipline, and elite fitness through expert instruction.
               </p>
               <div className="flex space-x-4">
-                <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-brand-orange transition-colors"><Instagram size={20} /></a>
-                <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-brand-orange transition-colors"><Facebook size={20} /></a>
-                <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-brand-orange transition-colors"><Twitter size={20} /></a>
+                <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-brand-orange transition-colors cursor-pointer"><Instagram size={20} /></a>
+                <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-brand-orange transition-colors cursor-pointer"><Facebook size={20} /></a>
+                <a href="#" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-brand-orange transition-colors cursor-pointer"><Twitter size={20} /></a>
               </div>
             </div>
 
@@ -953,19 +956,19 @@ export default function App() {
               <h4 className="text-lg font-bold mb-6 uppercase tracking-widest">Quick Links</h4>
               <ul className="space-y-4 text-gray-400">
                 {navLinks.map(link => (
-                  <li key={link.name}><a href={link.href} className="hover:text-brand-orange transition-colors">{link.name}</a></li>
+                  <li key={link.name}><a href={link.href} className="hover:text-brand-orange transition-colors cursor-pointer">{link.name}</a></li>
                 ))}
-                <li><a href="#" className="hover:text-brand-orange transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-brand-orange transition-colors cursor-pointer">Privacy Policy</a></li>
               </ul>
             </div>
 
             <div>
               <h4 className="text-lg font-bold mb-6 uppercase tracking-widest">Our Programs</h4>
               <ul className="space-y-4 text-gray-400">
-                <li><a href="#programs" className="hover:text-brand-orange transition-colors">Youth MMA</a></li>
-                <li><a href="#programs" className="hover:text-brand-orange transition-colors">Boxing & Kickboxing</a></li>
-                <li><a href="#programs" className="hover:text-brand-orange transition-colors">Judo Fundamentals</a></li>
-                <li><a href="#programs" className="hover:text-brand-orange transition-colors">Women's Classes</a></li>
+                <li><a href="#programs" className="hover:text-brand-orange transition-colors cursor-pointer">Youth MMA</a></li>
+                <li><a href="#programs" className="hover:text-brand-orange transition-colors cursor-pointer">Boxing & Kickboxing</a></li>
+                <li><a href="#programs" className="hover:text-brand-orange transition-colors cursor-pointer">Judo Fundamentals</a></li>
+                <li><a href="#programs" className="hover:text-brand-orange transition-colors cursor-pointer">Women's Classes</a></li>
               </ul>
             </div>
 
@@ -974,7 +977,7 @@ export default function App() {
               <p className="text-gray-400 mb-6">Stay updated with our latest news and class schedules.</p>
               <div className="flex">
                 <input type="email" placeholder="Email" className="bg-white/5 border border-white/10 px-4 py-2 rounded-l-sm focus:outline-none focus:border-brand-orange w-full" />
-                <button className="bg-brand-orange px-4 py-2 rounded-r-sm hover:bg-orange-600 transition-colors cursor-pointer"><ChevronRight /></button>
+                <button type="button" className="bg-brand-orange px-4 py-2 rounded-r-sm hover:bg-orange-600 transition-colors cursor-pointer" aria-label="Subscribe to newsletter"><ChevronRight /></button>
               </div>
             </div>
 
