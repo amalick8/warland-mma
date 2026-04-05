@@ -8,9 +8,11 @@ interface ProgramCardProps {
   isExpanded: boolean;
   onToggle: () => void;
   isDeemphasized: boolean;
+  onTryClass?: () => void;
+  key?: string | number;
 }
 
-export default function ProgramCard({ program, isExpanded, onToggle, isDeemphasized }: ProgramCardProps) {
+export default function ProgramCard({ program, isExpanded, onToggle, isDeemphasized, onTryClass }: ProgramCardProps) {
   return (
     <motion.div
       layout
@@ -81,7 +83,7 @@ export default function ProgramCard({ program, isExpanded, onToggle, isDeemphasi
             </ul>
 
             <div className="pt-4">
-              <Button variant="primary" className="w-full sm:w-auto">
+              <Button variant="primary" className="w-full sm:w-auto" onClick={onTryClass}>
                 TRY A CLASS
               </Button>
             </div>
