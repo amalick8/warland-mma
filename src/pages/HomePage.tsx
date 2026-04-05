@@ -109,16 +109,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="mt-8 p-6 bg-brand-black rounded-2xl flex items-center justify-between">
-                <div className="text-white">
-                  <h4 className="text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">Professional Record</h4>
-                  <p className="text-lg font-bold">12 - 7 - 0 (1 NC)</p>
-                  <p className="text-[10px] text-gray-400 mt-1">12 Wins by KO | 7 Losses (2 KO, 1 Sub, 4 Dec)</p>
-                </div>
-                <div className="text-right">
-                  <span className="text-brand-orange font-bold text-xs uppercase tracking-widest">UFC Veteran</span>
-                </div>
-              </div>
             </motion.div>
           </div>
         </div>
